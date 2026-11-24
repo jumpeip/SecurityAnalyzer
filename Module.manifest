@@ -1,0 +1,8 @@
+MODULE NAME: SecurityAnalyzer
+MODULE FILE LICENSE: Apache License 2.0
+MODULE DEPENDENCY: Framework/Generic
+MODULE DEPENDENCY: Framework/SoftwareModeling
+MODULE DEPENDENCY: Framework/Project
+MODULE DEPENDENCY: Framework/Docking
+MODULE DEPENDENCY: Features/Base
+MODULE DEPENDENCY: Features/Decompiler

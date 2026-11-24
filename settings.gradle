@@ -1,0 +1,6 @@
+/*
+ * Minimal settings file. Gradle 9.x prefers an explicit settings.gradle
+ * even for single-project builds; without one some configurations emit
+ * a deprecation warning.
+ */
+rootProject.name = 'SecurityAnalyzer'

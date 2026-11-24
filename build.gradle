@@ -1,0 +1,53 @@
+/*
+ * SecurityAnalyzer — Ghidra extension build script.
+ *
+ * Build:
+ *   gradle -PGHIDRA_INSTALL_DIR=/path/to/ghidra_12.2_PUBLIC
+ *
+ * Or set the GHIDRA_INSTALL_DIR environment variable before running gradle.
+ *
+ * Output:
+ *   dist/ghidra_<version>_PUBLIC_<date>_SecurityAnalyzer.zip
+ *
+ * Install: Ghidra → File → Install Extensions → "+" → select the zip,
+ * then restart Ghidra and enable the SecurityAnalyzer plugin in
+ * CodeBrowser → File → Configure → Miscellaneous.
+ */
+
+// -----------------------------------------------------------------------
+// Locate the Ghidra install directory.
+// -----------------------------------------------------------------------
+def ghidraInstallDir
+
+// An explicit -PGHIDRA_INSTALL_DIR wins over the environment variable.
+if (project.hasProperty("GHIDRA_INSTALL_DIR")) {
+    ghidraInstallDir = project.getProperty("GHIDRA_INSTALL_DIR")
+} else if (System.env.GHIDRA_INSTALL_DIR) {
+    ghidraInstallDir = System.env.GHIDRA_INSTALL_DIR
+}
+
+if (ghidraInstallDir) {
+    apply from: new File(ghidraInstallDir).getCanonicalPath() +
+        "/support/buildExtension.gradle"
+} else {
+    throw new GradleException(
+        "GHIDRA_INSTALL_DIR is not defined. Pass -PGHIDRA_INSTALL_DIR=/path/to/ghidra " +
+        "or set the GHIDRA_INSTALL_DIR environment variable.")
+}
+
+// -----------------------------------------------------------------------
+// Optional: tighten the published zip layout. The default Ghidra
+// buildExtension task already picks up src/, lib/, data/, ghidra_scripts/,
+// extension.properties, Module.manifest, README.md, and LICENSE.
+// -----------------------------------------------------------------------
+buildExtension {
+    exclude '.gradle/**'
+    exclude 'build/**'
+    exclude 'dist/**'
+    exclude '**/*.iml'
+    exclude '.idea/**'
+    exclude '.vscode/**'
+    exclude '*.zip'
+    exclude 'build.sh'
+    exclude 'build-windows.ps1'
+}
